@@ -1,0 +1,48 @@
+.bg {
+  position: absolute;
+  inset: 0;
+  overflow: hidden;
+  pointer-events: none;
+  z-index: 0;
+}
+
+.circle {
+  position: absolute;
+  border-radius: 50%;
+  background: var(--c);
+  /* soft edges so the colours melt into the white background */
+  filter: blur(10px);
+  opacity: 0;
+  transform: scale(0);
+  will-change: transform, opacity;
+  animation-name: pop;
+  animation-iteration-count: infinite;
+  animation-timing-function: cubic-bezier(0.34, 1.1, 0.64, 1);
+}
+
+/* Each circle gently pops in, drifts up a touch, then fades out — looped
+   with staggered delays so the background feels continuous and seamless. */
+@keyframes pop {
+  0% {
+    opacity: 0;
+    transform: scale(0) translateY(10px);
+  }
+  25% {
+    opacity: var(--peak, 0.35);
+  }
+  55% {
+    transform: scale(1) translateY(0);
+  }
+  100% {
+    opacity: 0;
+    transform: scale(1.25) translateY(-14px);
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .circle {
+    animation: none;
+    opacity: calc(var(--peak, 0.35) * 0.7);
+    transform: scale(1);
+  }
+}
